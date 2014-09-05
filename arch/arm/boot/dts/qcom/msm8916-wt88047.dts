@@ -40,6 +40,7 @@
 			qcom,fg-ibatt-standby-ma = <200>;
 			qcom,fg-cc-to-cv-mv = <4328>;
 			qcom,fg-auto-recharge-soc = <99>;
+			qcom,empty-soc-disabled;
 			qcom,warm-recharge-thresh-mv = <200>;
 			qcom,thermistor-c1-coeff = <0x85d2>;
 			qcom,float-voltage-mv = <4350>;
