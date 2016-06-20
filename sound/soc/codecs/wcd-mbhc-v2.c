@@ -2034,9 +2034,22 @@ int wcd_mbhc_set_keycode(struct wcd_mbhc *mbhc)
 				result = -1;
 				return result;
 			}
-			ret = snd_jack_set_key(mbhc->button_jack.jack,
-							type,
-							btn_key_code[i]);
+
+		ret = snd_jack_set_key(mbhc->button_jack.jack,
+				       SND_JACK_BTN_0,
+				       KEY_MEDIA);
+		ret = snd_jack_set_key(mbhc->button_jack.jack,
+				       SND_JACK_BTN_1,
+				       KEY_VOLUMEUP);
+		ret = snd_jack_set_key(mbhc->button_jack.jack,
+				       SND_JACK_BTN_2,
+				       KEY_VOLUMEDOWN);
+		ret = snd_jack_set_key(mbhc->button_jack.jack,
+				       SND_JACK_BTN_3,
+				       KEY_VOLUMEDOWN);
+		ret = snd_jack_set_key(mbhc->button_jack.jack,
+				       SND_JACK_BTN_4,
+				       KEY_VOLUMEDOWN);
 			if (ret) {
 				pr_err("%s: Failed to set code for %d\n",
 					__func__, btn_key_code[i]);
