@@ -53,7 +53,7 @@
 #include <linux/msm-bus.h>
 
 #ifdef CONFIG_FORCE_FAST_CHARGE
-#include <linux/fastchg.h>
+ 	#include <linux/fastchg.h>
 #endif
 
 #define MSM_USB_BASE	(motg->regs)
@@ -1984,6 +1984,15 @@ static void msm_otg_notify_charger(struct msm_otg *motg, unsigned mA)
         }
 #endif
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
+ 	if (force_fast_charge > 0 && mA > 0) {
+ 		mA = IDEV_ACA_CHG_MAX;
+ 		pr_info("USB fast charging is ON\n");
+ 	} else {
+ 		pr_info("USB fast charging is OFF\n");
+ 	}
+#endif
+ 
 	dev_info(motg->phy.dev, "Avail curr from USB = %u\n", mA);
 	msm_otg_dbg_log_event(&motg->phy, "AVAIL CURR FROM USB",
 			mA, motg->chg_type);

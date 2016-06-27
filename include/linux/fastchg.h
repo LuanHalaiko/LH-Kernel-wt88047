@@ -1,6 +1,8 @@
 /*
  * Author: Chad Froebel <chadfroebel@gmail.com>
  *
+ * Port to Osprey : engstk <eng.stk@sapo.pt>
+ *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
  * may be copied, distributed, and modified under those terms.
@@ -16,8 +18,5 @@
 #define _LINUX_FASTCHG_H
 
 extern int force_fast_charge;
-
-#define FAST_CHARGE_DISABLED 0	/* default */
-#define FAST_CHARGE_FORCE_AC 1
 
 #endif
