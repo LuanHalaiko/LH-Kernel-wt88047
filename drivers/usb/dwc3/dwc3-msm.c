@@ -1834,12 +1834,86 @@ static int dwc3_msm_resume(struct dwc3_msm *mdwc)
 			return ret;
 		}
 
-		/* Reset SS PHY */
-		ret = usb_phy_reset(mdwc->ss_phy);
-		if (ret) {
-			dev_err(mdwc->dev, "ssphy reset failed\n");
-			return ret;
+	/* Perform controller power collapse */
+	if (!mdwc->in_host_mode && (!mdwc->vbus_active ||
+				    mdwc->otg_state == OTG_STATE_B_IDLE ||
+				    mdwc->in_restart)) {
+		mdwc->lpm_flags |= MDWC3_POWER_COLLAPSE;
+		dev_dbg(mdwc->dev, "%s: power collapse\n", __func__);
+		dwc3_msm_config_gdsc(mdwc, 0);
+		clk_disable_unprepare(mdwc->sleep_clk);
+	}
+
+	cancel_delayed_work_sync(&mdwc->perf_vote_work);
+	dwc3_msm_perf_vote_update(mdwc, DWC3_PERF_OFF);
+
+	/*
+	 * release wakeup source with timeout to defer system suspend to
+	 * handle case where on USB cable disconnect, SUSPEND and DISCONNECT
+	 * event is received.
+	 */
+	if (mdwc->lpm_to_suspend_delay) {
+		dev_dbg(mdwc->dev, "defer suspend with %d(msecs)\n",
+					mdwc->lpm_to_suspend_delay);
+		pm_wakeup_event(mdwc->dev, mdwc->lpm_to_suspend_delay);
+	}
+
+	atomic_set(&dwc->in_lpm, 1);
+
+	/*
+	 * with DCP or during cable disconnect, we dont require wakeup
+	 * using HS_PHY_IRQ or SS_PHY_IRQ. Hence enable wakeup only in
+	 * case of host bus suspend and device bus suspend.
+	 */
+	if ((mdwc->vbus_active && mdwc->otg_state == OTG_STATE_B_SUSPEND)
+			 || (mdwc->vbus_active && mdwc->otg_state == OTG_STATE_B_PERIPHERAL)
+			|| mdwc->in_host_mode) {
+		pr_err("HQ----in dwce_msm 2118 vbus = %d otg = %d in_host_mode = %d\n", mdwc->vbus_active, mdwc->otg_state, mdwc->in_host_mode);
+		enable_irq_wake(mdwc->hs_phy_irq);
+		enable_irq(mdwc->hs_phy_irq);
+		if (mdwc->ss_phy_irq) {
+			enable_irq_wake(mdwc->ss_phy_irq);
+			enable_irq(mdwc->ss_phy_irq);
 		}
+		mdwc->lpm_flags |= MDWC3_ASYNC_IRQ_WAKE_CAPABILITY;
+	}
+
+	dev_info(mdwc->dev, "DWC3 in low power mode\n");
+	dbg_event(0xFF, "SUSComplete", mdwc->lpm_to_suspend_delay);
+	return 0;
+}
+
+static int dwc3_msm_resume(struct dwc3_msm *mdwc)
+{
+	int ret;
+	struct dwc3 *dwc = platform_get_drvdata(mdwc->dwc3);
+
+	dev_dbg(mdwc->dev, "%s: exiting lpm\n", __func__);
+	dbg_event(0xFF, "msmresume", atomic_read(&dwc->in_lpm));
+
+	if (!atomic_read(&dwc->in_lpm)) {
+		dev_dbg(mdwc->dev, "%s: Already resumed\n", __func__);
+		dbg_event(0xFF, "AlreadyRES", 0);
+		return 0;
+	}
+
+	/* Vote for TCXO while waking up USB HSPHY */
+	ret = clk_prepare_enable(mdwc->xo_clk);
+	if (ret)
+		dev_err(mdwc->dev, "%s failed to vote TCXO buffer%d\n",
+						__func__, ret);
+
+	/* Restore controller power collapse */
+	if (mdwc->lpm_flags & MDWC3_POWER_COLLAPSE) {
+		dev_dbg(mdwc->dev, "%s: exit power collapse\n", __func__);
+		dwc3_msm_config_gdsc(mdwc, 1);
+
+		clk_reset(mdwc->core_clk, CLK_RESET_ASSERT);
+		/* HW requires a short delay for reset to take place properly */
+		usleep_range(1000, 1200);
+		clk_reset(mdwc->core_clk, CLK_RESET_DEASSERT);
+		clk_prepare_enable(mdwc->sleep_clk);
+	}
 
 		ret = dwc3_msm_restore_sec_config(mdwc->scm_dev_id);
 		if (ret)
