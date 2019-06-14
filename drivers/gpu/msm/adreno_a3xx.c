@@ -717,7 +717,7 @@ void a3xx_gpudev_init(struct adreno_device *adreno_dev)
 	struct adreno_gpudev *gpudev;
 	const struct adreno_reg_offsets *reg_offsets;
 
-	if (adreno_is_a306(adreno_dev) ||
+	if (adreno_is_a306(adreno_dev)) {
 		gpudev = ADRENO_GPU_DEVICE(adreno_dev);
 		reg_offsets = gpudev->reg_offsets;
 		reg_offsets->offsets[ADRENO_REG_VBIF_XIN_HALT_CTRL0] =
