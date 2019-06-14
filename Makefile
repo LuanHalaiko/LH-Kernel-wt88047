@@ -383,7 +383,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
-KBUILD_CFLAGS_KERNEL := -mfloat-abi=softfp -march=armv8-a+crc -mtune=cortex-a53 -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8 -funsafe-math-optimizations
+KBUILD_CFLAGS_KERNEL := -mfloat-abi=soft -march=armv8-a+crc -mtune=cortex-a53 -mcpu=cortex-a53 -mfpu=crypto-neon-fp-armv8 -funsafe-math-optimizations
 KBUILD_AFLAGS   := -D__ASSEMBLY__
 KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
