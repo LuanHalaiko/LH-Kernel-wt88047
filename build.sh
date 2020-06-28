@@ -2,6 +2,7 @@
  # Copyright © 2017, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
  # Copyright © 2017, Ashish Malik "AshishM94" <im.ashish994@gmail.com>
  # Copyright © 2017, Rahif M "RahifM" <faizel326@gmail.com>
+ # Copyright © 2020, Luan Halaiko "LuanHalaiko" <luhalaiko@gmail.com>
  #
  # Custom build script
  #
@@ -28,14 +29,16 @@ yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
 # Modify the following variable if you want to build
-#export make clean && make mrproper
-#export CROSS_COMPILE="/home/innfinite4evr/.kernel/uber4.9/bin/arm-eabi-"
-#export ARCH=arm
-#export SUBARCH=arm
-#make wt88047_defconfig
+export make clean && make mrproper
+export CROSS_COMPILE="$HOME/workfolder/toolchain/UBER-6/bin/arm-eabi-"
+export ARCH=arm
+export SUBARCH=arm
+export KBUILD_BUILD_USER="LuanHalaiko"
+export KBUILD_BUILD_HOST="CrossBuilder"
+make wt88047_defconfig
 set -x -e
 rm -f .version # Since this annoys people with OCD
-make -j8
+make -j4
 
 $DTBTOOL -2 -o $KERNEL_DIR/arch/arm/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
 echo -e "$blue***********************************************"
