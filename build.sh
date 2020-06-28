@@ -25,7 +25,7 @@ DT_IMG=$KERNEL_DIR/arch/arm/boot/dt.img
 DTBTOOL=$KERNEL_DIR/tools/dtbToolCM
 
 #Export
-export CROSS_COMPILE="$HOME/workfolder/toolchain/GOOGLE-ARM32/bin/arm-linux-androideabi-"
+export CROSS_COMPILE="$HOME/workfolder/toolchain/UBER-6/bin/arm-eabi-"
 export ARCH=arm
 export SUBARCH=arm
 export KBUILD_BUILD_USER="LuanHalaiko"
