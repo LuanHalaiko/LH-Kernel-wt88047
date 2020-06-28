@@ -34,6 +34,15 @@ modules.builtin
 *.gcno
 
 #
+# LH Kernel files
+#
+Buildlog-GCC.txt
+Zip-out/
+build.sh
+c.sh
+
+
+#
 # Top-level generic files
 #
 /tags
