@@ -230,8 +230,8 @@ static void get_speed_bin(struct platform_device *pdev, int *bin, int *version)
 	void __iomem *base;
 	u32 pte_efuse, redundant_sel, valid;
 
-	*bin = 0;
-	*version = 0;
+	*bin = 2;
+	*version = 1;
 
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "efuse");
 	if (!res) {
@@ -251,16 +251,19 @@ static void get_speed_bin(struct platform_device *pdev, int *bin, int *version)
 	devm_iounmap(&pdev->dev, base);
 
 	redundant_sel = (pte_efuse >> 24) & 0x7;
-	*bin = pte_efuse & 0x7;
+	//*bin = pte_efuse & 0x7;
+	*bin = 2;
 	valid = (pte_efuse >> 3) & 0x1;
-	*version = (pte_efuse >> 4) & 0x3;
+	//*version = (pte_efuse >> 4) & 0x3;
+	*version = 1;
 
 	if (redundant_sel == 1)
-		*bin = (pte_efuse >> 27) & 0x7;
+		//*bin = (pte_efuse >> 27) & 0x7;
+	    *bin = 2;
 
 	if (!valid) {
-		dev_info(&pdev->dev, "Speed bin not set. Defaulting to 0!\n");
-		*bin = 0;
+		dev_info(&pdev->dev, "Speed bin not set. Defaulting to 2!\n");
+		*bin = 2;
 	} else {
 		dev_info(&pdev->dev, "Speed bin: %d\n", *bin);
 	}
@@ -277,8 +280,8 @@ static void get_speed_bin_b(struct platform_device *pdev, int *bin,
 	void __iomem *base;
 	u32 pte_efuse, shift = 2, mask = 0x7;
 
-	*bin = 0;
-	*version = 0;
+	*bin = 2;
+	*version = 1;
 
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "efuse1");
 	if (res) {
@@ -287,9 +290,11 @@ static void get_speed_bin_b(struct platform_device *pdev, int *bin,
 			pte_efuse = readl_relaxed(base);
 			devm_iounmap(&pdev->dev, base);
 
-			*version = (pte_efuse >> 18) & 0x3;
+			//*version = (pte_efuse >> 18) & 0x3;
+			*version = 1;
 			if (!(*version)) {
-				*bin = (pte_efuse >> 23) & 0x3;
+				//*bin = (pte_efuse >> 23) & 0x3;
+				*bin = 2;
 				if (*bin) {
 					dev_info(&pdev->dev, "Speed bin: %d PVS Version: %d\n",
 						      *bin, *version);
@@ -364,7 +369,7 @@ static struct platform_device *cpu_clock_a7_dev;
 static int clock_a7_probe(struct platform_device *pdev)
 {
 	struct resource *res;
-	int speed_bin = 0, version = 0, rc, cpu;
+	int speed_bin = 2, version = 1, rc, cpu;
 	unsigned long rate, aux_rate;
 	struct clk *aux_clk, *main_pll;
 	char prop_name[] = "qcom,speedX-bin-vX";
