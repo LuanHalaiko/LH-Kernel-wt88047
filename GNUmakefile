@@ -1,6 +1,5 @@
 
-#export CROSS_COMPILE = /opt/AndroidSDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-
-export CROSS_COMPILE = arm-none-eabi-
+export CROSS_COMPILE = /opt/AndroidSDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-
 #export KCFLAGS = -mno-android
 export ARCH=arm
 
