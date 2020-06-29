@@ -459,7 +459,7 @@ static struct pll_vote_clk gpll2_clk_src = {
 	.base = &virt_bases[GCC_BASE],
 	.c = {
 		.parent = &xo_clk_src.c,
-		.rate = 930000000,
+		.rate = 990000000,
 		.dbg_name = "gpll2_clk_src",
 		.ops = &clk_ops_pll_vote,
 		CLK_INIT(gpll2_clk_src.c),
@@ -596,8 +596,8 @@ static struct clk_freq_tbl ftbl_gcc_oxili_gfx3d_clk[] = {
 	F( 200000000,  gpll0_aux,   4,	  0,	0),
 	F( 266670000,  gpll0_aux,   3,	  0,	0),
 	F( 294912000,	   gpll1,   3,	  0,	0),
-	F( 310000000,	   gpll2,   3,	  0,	0),
-	F( 400000000,  gpll0_aux,   2,	  0,	0),
+	F( 396000000,	   gpll2, 2.5,	  0,	0),
+	F( 660000000,      gpll2, 1.5,	  0,	0),
 	F_END
 };
 
@@ -610,8 +610,8 @@ static struct rcg_clk gfx3d_clk_src = {
 	.c = {
 		.dbg_name = "gfx3d_clk_src",
 		.ops = &clk_ops_rcg,
-		VDD_DIG_FMAX_MAP3(LOW, 200000000, NOMINAL, 310000000, HIGH,
-			400000000),
+		VDD_DIG_FMAX_MAP3(LOW, 200000000, NOMINAL, 396000000, HIGH,
+			660000000),
 		CLK_INIT(gfx3d_clk_src.c),
 	},
 };
@@ -2798,8 +2798,8 @@ static void gcc_gfx3d_fmax(struct platform_device *pdev)
 	pr_info("%s, Version: %d, bin: %d\n", __func__, version,
 					bin);
 
-	gfx3d_clk_src.c.fmax[VDD_DIG_HIGH] = 465000000;
-	gfx3d_clk_src.freq_tbl = ftbl_gcc_oxili_gfx3d_465_clk;
+	gfx3d_clk_src.c.fmax[VDD_DIG_HIGH] = 660000000;
+	gfx3d_clk_src.freq_tbl = ftbl_gcc_oxili_gfx3d_clk;
 }
 
 static int msm_gcc_probe(struct platform_device *pdev)
