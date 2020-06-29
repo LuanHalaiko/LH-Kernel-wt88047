@@ -2827,8 +2827,6 @@ static int msm_gcc_probe(struct platform_device *pdev)
 		return PTR_ERR(xo_a_clk_src.c.parent);
 	}
 
-	gcc_gfx3d_fmax(pdev);
-
 	ret = of_msm_clock_register(pdev->dev.of_node,
 				msm_clocks_lookup,
 				ARRAY_SIZE(msm_clocks_lookup));
