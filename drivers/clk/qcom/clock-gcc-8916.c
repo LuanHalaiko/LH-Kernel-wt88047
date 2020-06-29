@@ -552,7 +552,7 @@ static struct clk_freq_tbl ftbl_gcc_camss_vfe0_clk[] = {
 	F( 266670000,	   gpll0,   3,	  0,	0),
 	F( 320000000,	   gpll0, 2.5,	  0,	0),
 	F( 400000000,	   gpll0,   2,	  0,	0),
-	F( 465000000,	   gpll2,   2,	  0,	0),
+	F( 465000000,	   gpll2, 1.6,	  0,	0),
 	F_END
 };
 
@@ -1245,7 +1245,7 @@ static struct rcg_clk usb_hs_system_clk_src = {
 static struct clk_freq_tbl ftbl_gcc_venus0_vcodec0_clk[] = {
 	F( 100000000,	   gpll0,   8,	  0,	0),
 	F( 160000000,	   gpll0,   5,	  0,	0),
-	F( 228570000,	   gpll0, 3.5,	  0,	0),
+	F( 228570000,	   gpll0,   3,	  0,	0),
 	F_END
 };
 
