@@ -230,7 +230,7 @@
 			"camss_vfe_vfe_clk", "iface_clk", "cpp_core_clk",
 			"cpp_iface_clk", "cpp_bus_clk", "micro_iface_clk",
 			"camss_ahb_clk";
-		qcom,clock-rates = <0 320000000 0 80000000 320000000 0 0 0 0>;
+		qcom,clock-rates = <0 465000000 0 80000000 465000000 0 0 0 0>;
 	};
 
 	cci: qcom,cci@1b0c000 {
