@@ -48,4 +48,4 @@ As of 30-6-20:
 ```
 > Check the [COPYING](https://github.com/LuanHalaiko/LH-Kernel-wt88047/blob/rel/oreo-release/COPYING) file for more details.
 
-> Inspired by [Nysa](https://github.com/nysascape/kernel_xiaomi_acrux/blob/readme/README.md) & [idkwhoiam322] (https://github.com/whoknowswhoiam/weebmsm8998-pie/blob/README/README.md).
+> Inspired by [Nysa](https://github.com/nysascape/kernel_xiaomi_acrux/blob/readme/README.md) and [idkwhoiam322](https://github.com/whoknowswhoiam/weebmsm8998-pie/blob/README/README.md).
