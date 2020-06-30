@@ -38,7 +38,7 @@ modules.builtin
 #
 Buildlog-GCC.txt
 Zip-out/
-build.sh
+b.sh
 c.sh
 
 
