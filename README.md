@@ -6,6 +6,7 @@
 ```
 readme: This current branch
 rel/oreo-release: Release branch which will always be the one you're downloading
+rel/10-release: Same as oreo-release branch, but for android 10
 
 All the other ones are for testing and etc
 ```
@@ -23,9 +24,9 @@ Ram - 1gb
 *You can find all the specifications here - [GSM Arena](https://www.gsmarena.com/xiaomi_redmi_2-6884.php)*
 
 ## Kernel Features
-As of 30-6-20:
+As of 07-03-20:
 ```
-- Screen overclocked to 75hz (only r69431 for now)
+- Screen overclocked to 75hz
 - Major improvements for overall smoothness
 - Gpu overclocked to 660mhz and unlocked Cpu to 1363mhz
 - Zram LZ4, UKSM, Sound & Voltage control
